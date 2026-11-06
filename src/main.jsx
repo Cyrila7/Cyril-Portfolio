@@ -17,48 +17,44 @@ const simulationScenarios={
 };
 const simulationIcons=[Clock3,Code2,Filter,Database,Send];
 function CyrilHQSimulator(){
- const [scenario,setScenario]=useState('new'),[step,setStep]=useState(0),[playing,setPlaying]=useState(false),[decision,setDecision]=useState(null);
+ const [scenario,setScenario]=useState('new'),[step,setStep]=useState(0),[playing,setPlaying]=useState(false),[run,setRun]=useState(0),[clock,setClock]=useState(0),[speed,setSpeed]=useState(1);
  const reduced=useReducedMotion(),current=simulationScenarios[scenario];
- const reset=(v=scenario)=>{setPlaying(false);setScenario(v);setStep(0);setDecision(null)};
- useEffect(()=>{if(!playing)return;const timer=setTimeout(()=>{if(step===4){setPlaying(false)}else setStep(v=>v+1)},reduced?750:3000);return()=>clearTimeout(timer)},[playing,step,reduced]);
- const outcome=scenario==='duplicate'?'REJECTED':scenario==='failure'?'COOLDOWN':scenario==='baseline'?'BASELINE SAVED':'ALERT SENT';
- const job={title:'Software Engineer Intern 2027',company:'Example Tech',location:'New York, NY'};
- const pathX=[9,29,50,71,91][step];
- return <div className="hq-sim hq-live">
-  <div className="hq-sim-head"><div><span className="eyebrow">CYRILHQ / INTERACTIVE SYSTEM STORY</span><h2 id="detail-title">Watch a job move through CyrilHQ.</h2><p>Follow a sample opportunity from scheduled poll to final outcome. Simulated, not connected to production.</p></div><span className="hq-sim-label"><span className="live-dot"/> DEMO MODE</span></div>
-  <div className="hq-sim-scenarios" aria-label="Choose a scenario">{Object.entries(simulationScenarios).map(([key,value])=><button key={key} className={scenario===key?'selected':''} aria-pressed={scenario===key} onClick={()=>reset(key)}>{value.label}</button>)}</div>
-  <div className="hq-stage">
-   <div className="hq-stage-top"><span><span className="live-dot"/> PIPELINE VISUALIZER</span><span>{playing?'● RUNNING':step===4?'● COMPLETE':'● READY'}</span></div>
-   <div className="hq-factory" aria-label="Animated job processing pipeline">
-    <div className="hq-factory-row">
-    {['Scheduler','Adzuna','Filter','Database','Inbox'].map((name,i)=>{const Icon=simulationIcons[i];const active=step===i;const reached=step>=i;return <React.Fragment key={name}>
-     <button className={'hq-machine '+(active?'hq-machine-active ':'')+(reached?'hq-machine-reached ':'')+(scenario==='failure'&&i===1&&step>=2?'hq-machine-failed':'')} onClick={()=>{setPlaying(false);setStep(i)}} aria-label={'Inspect '+name}>
-      <span className="hq-machine-top"><span>{String(i+1).padStart(2,'0')}</span>{active?<span className="hq-machine-led"/>:null}</span>
-      <span className={'hq-machine-graphic '+(active?'hq-graphic-active':'')}>
-       {i===0?<Clock3 size={34} className={active&&playing&&!reduced?'hq-spin-clock':''}/>:i===1?<><Cloud size={39} className={active&&playing?'hq-cloud-pulse':''}/>{active&&scenario!=='failure'&&<span className="hq-cloud-jobs">{[0,1,2].map(j=><motion.i key={j} initial={{opacity:0,y:15,scale:.6}} animate={{opacity:[0,1,1,0],y:[16,-6,-17,-23],x:[0,(j-1)*12,(j-1)*20],scale:[.6,1,1,.6]}} transition={{duration:1.7,delay:j*.32,repeat:Infinity}}><BriefcaseBusiness size={11}/></motion.i>)}</span>}</>:i===2?<><Filter size={35}/>{active&&playing&&<motion.span className="hq-filter-pulse" animate={{y:[-7,16],opacity:[0,1,0]}} transition={{duration:.8,repeat:Infinity}}/>}</>:i===3?<><Database size={35}/>{active&&<motion.span className="hq-db-ring" animate={{scale:[.7,1.35],opacity:[.9,0]}} transition={{duration:1,repeat:Infinity}}/>}</>:<><Mail size={35}/>{active&&scenario==='new'&&<motion.span className="hq-inbox-check" initial={{scale:0}} animate={{scale:1}}><CheckCircle2 size={20}/></motion.span>}</>}
-      </span>
-      <strong>{name}</strong><small>{['10-minute trigger','Collect job listings','Match & exclude','Check fingerprints','Send alert'][i]}</small>
-     </button>
-     {i<4&&<div className={'hq-transport '+(step>i?'hq-transport-done':'')}><span className="hq-transport-rail"/>{step===i+1&&!(scenario==='failure'&&i>=1)&&!(scenario!=='new'&&i===3)&&<motion.span key={scenario+'-'+step} className="hq-moving-job" initial={{left:'0%',opacity:0}} animate={{left:'100%',opacity:[0,1,1,0]}} transition={{duration:reduced?0:1.6,ease:'easeInOut'}}><BriefcaseBusiness size={13}/></motion.span>}</div>}
-    </React.Fragment>})}
-    </div>
-    <div className="hq-factory-events">
-      {step===0?<><Clock3 size={16} className={playing&&!reduced?'hq-spin-clock':''}/> Scheduler triggers a scan every 10 minutes</>:
-      step===1?<><Cloud size={16}/> {scenario==='failure'?'Adzuna returns HTTP 503 — requests stop':'Adzuna gathers matching listings from search queries'}</>:
-      step===2?<><Filter size={16}/> {scenario==='failure'?'Circuit breaker activates: 30-minute cooldown':'Filtering excludes irrelevant and blocked listings'}</>:
-      step===3?<><Database size={16}/> {scenario==='duplicate'?'Duplicate detected: stop before email':scenario==='baseline'?'First-run baseline: store without email':scenario==='failure'?'No new records to process':'External ID and fingerprint checked — new opening'}</>:
-      <><Mail size={16}/> {scenario==='new'?'Email delivered! New opening recorded.':scenario==='duplicate'?'Duplicate rejected — no repeat email':scenario==='failure'?'API cooling down — no email':'Baseline saved — no historical email blast'}</>}
-    </div>
-   </div>
-   <AnimatePresence mode="wait"><motion.div key={scenario+'-'+step} className="hq-job-display" initial={reduced?false:{opacity:0,y:12,scale:.97}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-8}} transition={{duration:.3}}>
-    <div className="hq-job-card"><div className="hq-job-icon"><BriefcaseBusiness size={22}/></div><div><small>EXAMPLE LISTING · NOT A LIVE JOB</small><strong>{job.title}</strong><span>{job.company} · {job.location}</span></div></div>
-    <div className={'hq-decision '+(step===4?'finished':'')}><span>{step===4?'FINAL OUTCOME':'CURRENT EVENT'}</span><strong>{step===4?outcome:current.steps[step][0]}</strong><p>{current.steps[step][1]}</p>{scenario==='failure'&&step>=2&&<div className="hq-cooldown"><Clock3 size={16}/> 30-minute API cooldown activated</div>}{scenario==='duplicate'&&step>=3&&<div className="hq-reject"><X size={16}/> Duplicate fingerprint detected — no repeat email</div>}{scenario==='new'&&step===4&&<div className="hq-success"><Mail size={16}/> Example alert delivered to inbox</div>}{scenario==='baseline'&&step>=3&&<div className="hq-cooldown"><Database size={16}/> Baseline saved without email</div>}</div>
-   </motion.div></AnimatePresence>
-   <div className="hq-stage-progress">{current.steps.map((e,i)=><button key={i} className={i<=step?'lit':''} onClick={()=>{setPlaying(false);setStep(i)}} aria-label={'Go to event '+(i+1)}/>)}</div>
-  </div>
-  <div className="hq-sim-console" aria-label="Simulated event log"><div><span className="live-dot"/> LIVE-STYLE EVENT LOG <small>SIMULATED</small></div>{current.steps.slice(0,step+1).map((event,i)=><motion.p key={scenario+i} initial={reduced?false:{opacity:0,x:-12}} animate={{opacity:1,x:0}}><span>[{String(i+1).padStart(2,'0')}]</span> {event[0]} <em>{event[2]}</em></motion.p>)}</div>
-  <div className="hq-sim-actions"><button className="secondary" onClick={()=>reset()}><RotateCcw size={16}/> Reset</button><button className="primary" onClick={()=>{if(step===4){setStep(0);setPlaying(true)}else setPlaying(v=>!v)}}><Play size={16}/>{playing?'Pause':step===4?'Replay animation':'Run animation'}</button><button className="secondary" disabled={step===4} onClick={()=>{setPlaying(false);setStep(v=>Math.min(4,v+1))}}>Next event <ArrowRight size={16}/></button><a className="hq-sim-source" href={links.cyrilhq} target="_blank" rel="noreferrer">View actual code <ExternalLink size={15}/></a></div>
-  <p className="hq-sim-foot">This visualization uses fictional job data. Actual backend logic includes first-run baselining, external-ID and fingerprint deduplication, alert limits, and upstream cooldown handling.</p>
+ const reset=(next=scenario)=>{setPlaying(false);setScenario(next);setStep(0);setClock(0);setRun(v=>v+1)};
+ const start=()=>{setStep(0);setClock(0);setRun(v=>v+1);setPlaying(true)};
+ useEffect(()=>{if(!playing)return;const timer=setInterval(()=>setStep(v=>Math.min(4,v+1)),(reduced?400:1550)/speed);return()=>clearInterval(timer)},[playing,speed,reduced,run]);
+ useEffect(()=>{if(playing&&step===4){const timer=setTimeout(()=>setPlaying(false),(reduced?350:1500)/speed);return()=>clearTimeout(timer)}},[playing,step,speed,reduced]);
+ useEffect(()=>{if(!playing||step!==0)return;const timer=setInterval(()=>setClock(v=>Math.min(10,v+1)),(reduced?30:95)/speed);return()=>clearInterval(timer)},[playing,step,speed,reduced,run]);
+ const failed=scenario==='failure',discard=scenario==='duplicate',baseline=scenario==='baseline';
+ const active=playing||step>0;
+ const stagePaths={start:'M180 82 L180 112',collect:'M180 174 L180 210',filter:'M180 270 L180 304',new:'M180 363 Q240 370 277 399',duplicate:'M180 363 Q122 370 82 399',mail:'M277 451 L277 489'};
+ const traveling=failed?'M180 82 L180 112':discard?'M180 82 L180 112 L180 174 L180 210 L180 270 L180 304 L180 363 Q122 370 82 399':baseline?'M180 82 L180 112 L180 174 L180 210 L180 270 L180 304 L180 363 Q240 370 277 399':'M180 82 L180 112 L180 174 L180 210 L180 270 L180 304 L180 363 Q240 370 277 399 L277 451 L277 489';
+ const time= (reduced?2.5:7.2)/speed;
+ return <div className="hq-sim hq-network">
+ <div className="hq-sim-head"><div><span className="eyebrow">CYRILHQ / ANIMATED SYSTEM ARCHITECTURE</span><h2 id="detail-title">Watch job emails travel through the system.</h2><p>A fast, interactive simulation of the actual backend flow. Example jobs only.</p></div><span className="hq-sim-label"><span className="live-dot"/> SIMULATION</span></div>
+ <div className="hq-sim-scenarios">{Object.entries(simulationScenarios).map(([key,value])=><button key={key} className={scenario===key?'selected':''} aria-pressed={scenario===key} onClick={()=>reset(key)}>{value.label}</button>)}</div>
+ <div className="hq-network-panel">
+  <div className="hq-network-header"><span><span className="live-dot"/> JOB ROUTING NETWORK</span><span>{playing?'● PROCESSING':step===4?'● FINISHED':'● READY'}</span></div>
+  <svg className="hq-network-svg" viewBox="0 0 360 520" role="img" aria-label="Animated branching pipeline from scheduler to Adzuna, filter, PostgreSQL duplicate check, discard or inbox">
+   <defs><linearGradient id="hq-node-gradient" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#46305d"/><stop offset="1" stopColor="#21162e"/></linearGradient><filter id="hq-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><marker id="hq-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#bd8ef4" strokeWidth="1.2"/></marker></defs>
+   {Object.entries(stagePaths).map(([id,d])=><path key={id} d={d} fill="none" stroke={id==='duplicate'?'#b96a9b':id==='new'||id==='mail'?'#68bb9d':'#9c72c9'} strokeWidth="2.5" strokeDasharray="5 6" markerEnd="url(#hq-arrow)" opacity=".85"/>)}
+   <g className={playing&&step===0&&!reduced?'hq-network-clock':''} style={{transformOrigin:'180px 52px'}}><circle cx="180" cy="52" r="28" fill="url(#hq-node-gradient)" stroke="#bd8ef4" strokeWidth="2"/><path d="M180 34 V52 L193 58" stroke="#e6c7ff" strokeWidth="2.5" fill="none" strokeLinecap="round"/></g>
+   <text x="180" y="92" textAnchor="middle" fill="#cda5ee" fontSize="10" fontWeight="bold">{String(clock).padStart(2,'0')}:00 / 10:00</text>
+   <g><rect x="95" y="112" width="170" height="62" rx="28" fill="url(#hq-node-gradient)" stroke="#ad82d8" strokeWidth="2"/><text x="180" y="136" textAnchor="middle" fill="#f6e9ff" fontSize="15" fontWeight="bold">☁ ADZUNA</text><text x="180" y="154" textAnchor="middle" fill="#c8a9dd" fontSize="10">Collect job listings</text></g>
+   {active&&!failed&&[0,1,2].map(i=><g key={'cloud-'+i} className="hq-cloud-mail"><rect x={133+i*28} y="158" width="18" height="14" rx="3" fill="#a56de4" stroke="#e3bfff"/><path d={`M${136+i*28} 162 l6 5 l6 -5`} fill="none" stroke="#fff" strokeWidth="1"/>{playing&&!reduced&&<animateTransform attributeName="transform" type="translate" values="0 0;0 -13;0 0" dur={.6+i*.15+'s'} repeatCount="indefinite"/>}</g>)}
+   <rect x="105" y="210" width="150" height="60" rx="19" fill="url(#hq-node-gradient)" stroke="#ad82d8" strokeWidth="2"/><text x="180" y="234" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold">FILTER</text><text x="180" y="251" textAnchor="middle" fill="#c8a9dd" fontSize="10">Match relevant jobs</text>
+   <rect x="95" y="304" width="170" height="59" rx="18" fill="url(#hq-node-gradient)" stroke="#ad82d8" strokeWidth="2"/><text x="180" y="329" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold">POSTGRESQL</text><text x="180" y="345" textAnchor="middle" fill="#c8a9dd" fontSize="10">Check ID + fingerprint</text>
+   <rect x="12" y="399" width="138" height="52" rx="20" fill="#442337" stroke="#c77a9b" strokeWidth="2"/><text x="81" y="420" textAnchor="middle" fill="#ffd2e2" fontSize="13" fontWeight="bold">✕ DISCARD</text><text x="81" y="436" textAnchor="middle" fill="#e9a6bf" fontSize="10">Duplicate found</text>
+   <rect x="211" y="399" width="133" height="52" rx="20" fill="#244237" stroke="#70cfa7" strokeWidth="2"/><text x="277" y="420" textAnchor="middle" fill="#c9ffe4" fontSize="13" fontWeight="bold">✓ NEW JOB</text><text x="277" y="436" textAnchor="middle" fill="#9be5c2" fontSize="10">Eligible to notify</text>
+   <rect x="227" y="489" width="100" height="28" rx="12" fill="#39234d" stroke="#c58ef2" strokeWidth="2"/><text x="277" y="508" textAnchor="middle" fill="#fff" fontSize="12">✉ INBOX</text>
+   {active&&<g key={'packet-'+run+'-'+scenario} className="hq-mail-packet" filter="url(#hq-glow)"><rect x="-12" y="-9" width="24" height="18" rx="4" fill={discard?'#d47ba3':'#b87af4'} stroke="#fff" strokeWidth="1.4"/><path d="M-9 -5 L0 2 L9 -5" fill="none" stroke="#fff" strokeWidth="1.5"/>{playing&&!reduced?<animateMotion dur={time+'s'} path={traveling} fill="freeze"/>:<animateMotion dur=".01s" path={step===4?traveling:'M180 82'} fill="freeze"/>}</g>}
+   {active&&!failed&&playing&&!reduced&&[0,1].map(i=><circle key={'spark-'+i} r="3" fill="#e4b9ff" filter="url(#hq-glow)"><animateMotion dur={time+'s'} begin={i*.35+'s'} path={traveling} fill="freeze"/></circle>)}
+   {step===4&&<text x="180" y="483" textAnchor="middle" fontSize="10" fill={discard?'#f1a8c1':'#8ce4bb'}>{failed?'API COOLDOWN — 30 MIN':discard?'DUPLICATE REJECTED':baseline?'BASELINE SAVED — NO EMAIL':'EMAIL SENT ✓'}</text>}
+  </svg>
+  <div className="hq-network-caption"><strong>{current.steps[step][0]}</strong><span>{current.steps[step][1]}</span></div>
+ </div>
+ <div className="hq-sim-actions"><button className="secondary" onClick={()=>reset()}><RotateCcw size={16}/> Reset</button><button className="primary" onClick={start}><Play size={16}/>{playing?'Restart animation':step===4?'Replay':'Run animation'}</button><button className="secondary" onClick={()=>setSpeed(v=>v===1?2:1)}>Speed {speed}×</button><a className="hq-sim-source" href={links.cyrilhq} target="_blank" rel="noreferrer">View backend code <ExternalLink size={15}/></a></div>
+ <div className="hq-sim-console"><div><span className="live-dot"/> SIMULATED EVENTS <small>NOT LIVE</small></div>{current.steps.slice(0,step+1).map((event,i)=><p key={scenario+i}><span>[{String(i+1).padStart(2,'0')}]</span> {event[0]} <em>{event[2]}</em></p>)}</div>
+ <p className="hq-sim-foot">Visual timing is accelerated: the scheduler runs every 10 minutes in production. Duplicate checks use PostgreSQL; first-run baselining and 429/503 cooldowns are represented as separate scenarios.</p>
  </div>
 }
 function App(){const [flip,setFlip]=useState(null);const [welcome,setWelcome]=useState(false),[recruiter,setRecruiter]=useState(false),[menu,setMenu]=useState(false),[project,setProject]=useState(null),[stage,setStage]=useState(0),[tourOpen,setTourOpen]=useState(false),[tourStep,setTourStep]=useState(0);const reduced=useReducedMotion();
