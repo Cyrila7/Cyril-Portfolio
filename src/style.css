@@ -52,3 +52,20 @@
 .book-controls{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:22px}.book-prev,.book-next{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 17px;border-radius:11px;font-weight:700;font-size:13px}.book-prev{background:transparent;color:#d6c5e6;border:1px solid #655078}.book-prev:disabled{opacity:.3;cursor:not-allowed}.book-next{background:linear-gradient(135deg,#9c57e8,#7139bd);border:1px solid #b77cf3;color:#fff}.book-dots{display:flex;gap:8px}.book-dots button{width:9px;height:9px;border-radius:50%;border:0;background:#594368;padding:0}.book-dots button.active{background:#c593ff;box-shadow:0 0 9px #b46aff}.book-hint{text-align:center;color:#9c8eaa;font-size:11px;margin:14px 0 0}
 @media(max-width:680px){.storybook{padding:36px 14px 16px;border-radius:15px}.book-heading{padding:0 10px 14px;font-size:8px;letter-spacing:1px}.book-spread{grid-template-columns:1fr;min-height:0}.book-left{min-height:200px;border-right:0;border-bottom:2px solid #170e20;padding:22px}.book-left-center{flex-direction:row;align-items:center;gap:20px}.book-left h2{font-size:26px}.book-symbol svg{width:30px;height:30px}.book-right{min-height:280px;padding:20px 22px}.book-page-content{min-height:215px}.book-page-content p{font-size:15px}.book-controls{gap:5px}.book-prev,.book-next{font-size:11px;padding:10px}.book-dots{gap:5px}.book-dots button{width:7px;height:7px}}
 @media(prefers-reduced-motion:reduce){.book-page-content{transform:none!important}}
+
+
+/* Phase 2.2: tangible 3D page turn and living chapter details */
+.book-spread{position:relative;overflow:visible;perspective:1600px;isolation:isolate}
+.book-turn-sheet{position:absolute;z-index:9;top:0;bottom:0;left:50%;width:50%;transform-origin:left center;transform-style:preserve-3d;pointer-events:none;filter:drop-shadow(-9px 9px 10px #0a071280)}
+.book-turn-sheet.book-turn-back{left:0;transform-origin:right center}
+.book-turn-front,.book-turn-reverse{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:30px;background:linear-gradient(100deg,#2b1e38,#483054);border:1px solid #815e9a;backface-visibility:hidden;-webkit-backface-visibility:hidden;color:#e8d9f2}
+.book-turn-front strong{font-size:clamp(22px,3vw,35px);line-height:1.15;letter-spacing:-1px}
+.book-turn-front span,.book-turn-reverse span{font-size:11px;letter-spacing:1.5px;color:#cda9e9;text-transform:uppercase}
+.book-turn-reverse{transform:rotateY(180deg);align-items:center;justify-content:center;gap:25px;background:linear-gradient(110deg,#402b50,#21172d)}
+.book-turn-reverse svg{color:#d7b3f6}
+.book-code{width:100%;display:flex;flex-direction:column;gap:8px;border:1px solid #64477b;border-radius:11px;background:#130f1d;padding:14px;font-family:monospace}
+.book-code .code-caption{font-size:10px;color:#a68eb7;margin-bottom:4px}.book-code code{font-size:12px;color:#d7c9e2}.book-code code span{color:#c18df5;margin-right:8px}
+.book-readiness{width:100%;border:1px solid #73518d;border-radius:12px;background:#24192e;padding:15px}.book-readiness>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:#d6b9ec}.book-readiness strong{font-size:24px;color:#e7c7ff}.readiness-track{height:7px;border-radius:10px;background:#4d385e;overflow:hidden;margin:12px 0}.readiness-track>div{height:100%;background:linear-gradient(90deg,#8d4cdd,#c58bff);border-radius:10px}.book-readiness small{color:#9f90ab;font-size:9px}
+.book-pipeline{position:relative;overflow:hidden}.book-pipeline i{position:absolute;left:0;top:0;width:7px;height:7px;background:#e6b9ff;box-shadow:0 0 12px #d38aff;border-radius:50%}
+@media(max-width:680px){.book-turn-sheet{display:none}.book-spread{overflow:hidden}}
+@media(prefers-reduced-motion:reduce){.book-turn-sheet{display:none}.book-pipeline i{display:none}}
