@@ -27,7 +27,7 @@ function CyrilHQSimulator(){
  const coords=[{left:'50%',top:'11%'},{left:'50%',top:'29%'},{left:'50%',top:'47%'},{left:'50%',top:'65%'},{left:duplicate?'21%':failure?'50%':baseline?'79%':'79%',top:duplicate||baseline||!failure?'83%':'29%'}];
  const pos=coords[step];const visible=playing||step>0;
  const calloutRight=step===4&&duplicate;
- const calloutTop=failure&&step>=2?'29%':step===4?'76%':coords[step].top;
+ const calloutTop=failure&&step>=2?'29%':step===4?'83%':coords[step].top;
  const calloutStyle={top:calloutTop,...(calloutRight?{left:'calc(21% + 78px)'}:{right:step===4&&!failure?'calc(21% + 78px)':'calc(50% + 78px)'}), '--arrow-top':step===0?'22%':step===4&&!failure?'75%':'50%'};
  return <div className="hq-sim hq-rebuilt">
   <div className="hq-sim-head"><div><span className="eyebrow">PROJECT INTERACTION / CYRILHQ</span><h2 id="detail-title">Follow the job.</h2><p>CyrilHQ automatically searches for job openings, filters out irrelevant or duplicate listings, and emails me when it finds new opportunities. Explore how the backend handles each step using fictional job data and real engineering decisions.</p></div><span className="hq-sim-label">SIMULATION</span></div>
