@@ -138,7 +138,7 @@
 @container (min-width:740px){
  .hq-rebuilt .hq-canvas{height:540px}
  .hq-rebuilt .hq-explainer{display:none}
- .hq-context{display:flex;position:absolute;z-index:6;flex-direction:column;gap:7px;width:clamp(190px,29%,260px);padding:13px 15px;background:#fff;border:1px solid #a8c8ee;border-radius:13px;box-shadow:0 8px 24px #1b45641c;color:#193e64;pointer-events:none}
+ .hq-context{display:flex;position:absolute;z-index:6;flex-direction:column;gap:7px;width:clamp(190px,29%,260px);padding:13px 15px;background:#fff;border:1px solid #a8c8ee;border-radius:13px;box-shadow:0 8px 24px #1b45641c;color:#193e64;pointer-events:none;translate:0 calc(-1 * var(--arrow-top,50%))}
  .hq-context:after{content:"";position:absolute;top:var(--arrow-top,50%);width:10px;height:10px;background:#fff;border-top:1px solid #a8c8ee;border-right:1px solid #a8c8ee;right:-6px;transform:translateY(-50%) rotate(45deg)}
  .hq-context.points-left:after{right:auto;left:-6px;transform:translateY(-50%) rotate(225deg)}
  .hq-context-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;font-weight:700;color:#3374c5;letter-spacing:.6px}
