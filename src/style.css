@@ -130,3 +130,19 @@
 .book-turn-reverse{transform:rotateY(180deg);background:linear-gradient(260deg,#fff,#eaf3ff);box-shadow:inset -9px 0 16px #416c9d12}
 .book-paper-edge{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#426f9b15,transparent 15%,transparent 85%,#426f9b12)}
 .book-paper-watermark{position:absolute;width:90px;height:90px;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #8fb2d62a;border-radius:50%;box-shadow:0 0 0 15px #8fb2d609}
+
+
+/* CyrilHQ: one contextual explanation beside the active stage. */
+.hq-rebuilt{container-type:inline-size}
+.hq-context{display:none}
+@container (min-width:740px){
+ .hq-rebuilt .hq-canvas{height:540px}
+ .hq-rebuilt .hq-explainer{display:none}
+ .hq-context{display:flex;position:absolute;z-index:6;flex-direction:column;gap:7px;width:clamp(190px,29%,260px);padding:13px 15px;background:#fff;border:1px solid #a8c8ee;border-radius:13px;box-shadow:0 8px 24px #1b45641c;color:#193e64;pointer-events:none}
+ .hq-context:after{content:"";position:absolute;top:var(--arrow-top,50%);width:10px;height:10px;background:#fff;border-top:1px solid #a8c8ee;border-right:1px solid #a8c8ee;right:-6px;transform:translateY(-50%) rotate(45deg)}
+ .hq-context.points-left:after{right:auto;left:-6px;transform:translateY(-50%) rotate(225deg)}
+ .hq-context-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;font-weight:700;color:#3374c5;letter-spacing:.6px}
+ .hq-context .hq-result{padding:4px 7px;font-size:9px;letter-spacing:0}
+ .hq-context strong{font-size:14px;line-height:1.3}
+ .hq-context p{font-size:12px;line-height:1.45;color:#506a83;margin:0}
+}
