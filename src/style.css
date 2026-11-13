@@ -146,3 +146,22 @@
  .hq-context strong{font-size:14px;line-height:1.3}
  .hq-context p{font-size:12px;line-height:1.45;color:#506a83;margin:0}
 }
+
+
+/* PathPilot student journey */
+.pp-sim{display:flex;flex-direction:column;gap:18px;color:#193e64}
+.pp-layout{display:grid;grid-template-columns:minmax(180px,1fr) minmax(0,1.6fr);gap:18px}
+.pp-steps{display:flex;flex-direction:column;gap:8px}
+.pp-step{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #d6e3f0;border-radius:12px;background:#f8fbff;color:#365775;padding:12px;font:inherit;cursor:pointer}
+.pp-step svg{flex-shrink:0}.pp-step strong{display:block;font-size:13px}.pp-step small{display:block;font-size:10px;color:#617a92;margin-top:3px}
+.pp-step.active{border-color:#397bd4;background:#e8f2ff;box-shadow:0 0 0 2px #dbeafe}.pp-step.passed{border-color:#b8e4d0}
+.pp-screen{min-width:0;min-height:310px;border:1px solid #d6e3f0;border-radius:16px;background:#f4f8fd;padding:18px;display:flex;flex-direction:column;gap:12px}
+.pp-screen h3{margin:0;font-size:20px;color:#193e64}.pp-screen p{margin:0;color:#506a83;font-size:13px;line-height:1.55}
+.pp-sample{background:white;border:1px solid #d6e3f0;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:12px}
+.pp-sample strong{color:#193e64}.pp-sample span{color:#506a83}.pp-sample .pp-ok{color:#25855d}
+.pp-stream{min-height:76px;white-space:pre-wrap;overflow-wrap:anywhere}
+.pp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:1px solid #d6e3f0;border-radius:12px;padding:14px;background:#f8fbff}
+.pp-metrics strong{font-size:22px;color:#193e64;display:block}.pp-metrics small{color:#506a83;font-size:11px}.pp-metrics p{grid-column:1/-1;margin:0;font-size:11px;color:#506a83}
+.pp-bar{height:7px;border-radius:10px;background:#dce6f1;margin-top:8px;overflow:hidden}.pp-bar i{display:block;height:100%;background:#397bd4;border-radius:10px}
+.pp-sim .hq-sim-head p{color:#506a83}.pp-sim .hq-sim-label{color:#3374c5;border-color:#cbdced}
+@media(max-width:680px){.pp-layout{grid-template-columns:1fr}.pp-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pp-step{padding:9px}.pp-screen{min-height:280px}.pp-sim .hq-sim-head{padding-right:20px}}
