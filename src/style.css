@@ -165,3 +165,13 @@
 .pp-bar{height:7px;border-radius:10px;background:#dce6f1;margin-top:8px;overflow:hidden}.pp-bar i{display:block;height:100%;background:#397bd4;border-radius:10px}
 .pp-sim .hq-sim-head p{color:#506a83}.pp-sim .hq-sim-label{color:#3374c5;border-color:#cbdced}
 @media(max-width:680px){.pp-layout{grid-template-columns:1fr}.pp-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pp-step{padding:9px}.pp-screen{min-height:280px}.pp-sim .hq-sim-head{padding-right:20px}}
+
+
+/* Public resume: classic, readable document typography. */
+.resume-sheet{font-family:Georgia,"Times New Roman",serif;font-size:13px;line-height:1.5;color:#182333}
+.resume-sheet .resume-intro h2{font-family:Georgia,"Times New Roman",serif;font-size:30px;letter-spacing:-.5px;font-weight:700}
+.resume-sheet section h3{font-family:Georgia,"Times New Roman",serif;font-size:12px;letter-spacing:1.1px;color:#20354c}
+.resume-sheet .resume-line strong{display:block}
+.resume-sheet section a{color:#245fae;text-decoration:underline;text-underline-offset:2px}
+.resume-sheet .resume-line span{font-size:11.5px;flex-shrink:0}
+@media(max-width:600px){.resume-sheet{font-size:12px;line-height:1.55}.resume-sheet .resume-intro h2{font-size:25px}.resume-sheet .resume-line span{font-size:11px}}
