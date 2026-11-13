@@ -21,7 +21,7 @@ function CyrilHQSimulator(){
  const reduced=useReducedMotion(),current=simulationScenarios[scenario];
  const reset=(next=scenario)=>{setPlaying(false);setScenario(next);setStep(0);setClock(0)};
  const run=()=>{setStep(0);setClock(0);setPlaying(true)};
- useEffect(()=>{if(!playing)return;const timer=setTimeout(()=>{if(step<4)setStep(v=>v+1);else setPlaying(false)},(reduced?600:5000)/speed);return()=>clearTimeout(timer)},[playing,step,speed,reduced]);
+ useEffect(()=>{if(!playing)return;const timer=setTimeout(()=>{if(step<4)setStep(v=>v+1);else setPlaying(false)},(reduced?600:4000)/speed);return()=>clearTimeout(timer)},[playing,step,speed,reduced]);
  useEffect(()=>{if(!playing||step!==0)return;const timer=setInterval(()=>setClock(v=>Math.min(10,v+1)),(reduced?25:85)/speed);return()=>clearInterval(timer)},[playing,step,speed,reduced]);
  const failure=scenario==='failure',duplicate=scenario==='duplicate',baseline=scenario==='baseline';
  const coords=[{left:'50%',top:'11%'},{left:'50%',top:'29%'},{left:'50%',top:'47%'},{left:'50%',top:'65%'},{left:duplicate?'21%':failure?'50%':baseline?'79%':'79%',top:duplicate||baseline||!failure?'83%':'29%'}];
